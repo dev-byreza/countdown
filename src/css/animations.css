@@ -1,0 +1,148 @@
+/* ==========================================================================
+   Animations & Keyframes - Ultra Modern
+   ========================================================================== */
+
+/* 3D Mechanical Card Flip Physics */
+@keyframes flipTop {
+  0% {
+    transform: rotateX(0deg);
+    z-index: 2;
+  }
+  100% {
+    transform: rotateX(-90deg);
+    z-index: 2;
+  }
+}
+
+@keyframes flipBottom {
+  0% {
+    transform: rotateX(90deg);
+    z-index: 3;
+  }
+  100% {
+    transform: rotateX(0deg);
+    z-index: 3;
+  }
+}
+
+/* Ambient Morphing Aurora Background */
+@keyframes morphAurora1 {
+  0%, 100% {
+    transform: translate(0%, 0%) scale(1) rotate(0deg);
+  }
+  33% {
+    transform: translate(25%, -15%) scale(1.2) rotate(45deg);
+  }
+  66% {
+    transform: translate(-20%, 20%) scale(0.9) rotate(-30deg);
+  }
+}
+
+@keyframes morphAurora2 {
+  0%, 100% {
+    transform: translate(0%, 0%) scale(1) rotate(0deg);
+  }
+  33% {
+    transform: translate(-30%, 15%) scale(1.15) rotate(-40deg);
+  }
+  66% {
+    transform: translate(15%, -25%) scale(0.95) rotate(35deg);
+  }
+}
+
+/* Glowing Beacon Pulse at Tip of Ring */
+@keyframes beaconPulse {
+  0%, 100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 6px var(--ring-glow)) drop-shadow(0 0 14px var(--ring-glow));
+    opacity: 0.95;
+  }
+  50% {
+    transform: scale(1.35);
+    filter: drop-shadow(0 0 12px var(--ring-glow)) drop-shadow(0 0 25px var(--ring-glow));
+    opacity: 1;
+  }
+}
+
+/* Glowing Border Shimmer Sweep */
+@keyframes borderShimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Live Millisecond Stream Pulse */
+@keyframes msTickFlash {
+  0% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+}
+
+/* Floating HUD Badge */
+@keyframes floatBadge {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+/* Zero Moment Celebration Blast */
+@keyframes bounceCelebration {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  40% {
+    transform: translateY(-16px) scale(1.05);
+  }
+  60% {
+    transform: translateY(-8px) scale(1.02);
+  }
+}
+
+/* Sound Waveform Animation */
+@keyframes soundWave {
+  0%, 100% {
+    height: 4px;
+  }
+  50% {
+    height: 16px;
+  }
+}
+
+/* Modal Pop In */
+@keyframes modalPopIn {
+  from {
+    opacity: 0;
+    transform: scale(0.94) translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.animate-float {
+  animation: floatBadge 3.5s ease-in-out infinite;
+}
+
+.animate-celebrate {
+  animation: bounceCelebration 1.2s ease-in-out infinite;
+}
+
+.animate-beacon {
+  animation: beaconPulse 1.6s ease-in-out infinite;
+  transform-origin: center;
+}
