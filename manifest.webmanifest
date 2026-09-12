@@ -1,0 +1,16 @@
+{
+  "name": "Chronos Suite",
+  "short_name": "Chronos",
+  "description": "Countdown timer premium untuk event, deadline, dan momen penting.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#050711",
+  "theme_color": "#050711",
+  "lang": "id-ID",
+  "icons": [{
+    "src": "icon.svg",
+    "sizes": "any",
+    "type": "image/svg+xml",
+    "purpose": "any maskable"
+  }]
+}

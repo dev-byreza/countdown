@@ -39,6 +39,7 @@ class AppController {
   }
 
   init() {
+    this.registerServiceWorker();
     // Check if loaded from a shareable link
     const sharedTimer = decodeTimerFromUrl();
     if (sharedTimer) {
@@ -101,6 +102,37 @@ class AppController {
     this.sound.playCelebration();
     this.celebration.triggerBlast(9000);
     this.showToast('Waktu telah habis! Selebrasi dimulai 🎉', 'success');
+    this.sendCompletionNotification();
+  }
+
+  registerServiceWorker() {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js').catch(() => {});
+    }
+  }
+
+  async requestNotifications() {
+    if (!('Notification' in window)) {
+      this.showToast('Browser ini belum mendukung notifikasi.', 'warning');
+      return;
+    }
+    const permission = await Notification.requestPermission();
+    if (permission === 'granted') {
+      this.showToast('Notifikasi selesai countdown diaktifkan 🔔', 'success');
+      const button = document.getElementById('btn-enable-notifications');
+      if (button) button.classList.add('sound-active');
+    } else {
+      this.showToast('Izin notifikasi belum diberikan.', 'warning');
+    }
+  }
+
+  sendCompletionNotification() {
+    if ('Notification' in window && Notification.permission === 'granted') {
+      new Notification(`⏰ ${this.currentTimer.title}`, {
+        body: 'Countdown telah selesai.',
+        icon: './icon.svg'
+      });
+    }
   }
 
   updateEventMetaUI() {
@@ -358,7 +390,7 @@ class AppController {
       createBtn.addEventListener('click', () => {
         const tomorrow = new Date(Date.now() + 86400000);
         tomorrow.setHours(12, 0, 0, 0);
-        const formattedLocal = tomorrow.toISOString().slice(0, 16);
+        const formattedLocal = this.toLocalDateTimeValue(tomorrow);
         const dtInput = document.getElementById('new-timer-datetime');
         if (dtInput) dtInput.value = formattedLocal;
 
@@ -414,6 +446,14 @@ class AppController {
       audioSettingsBtn.addEventListener('click', () => {
         this.openModal('modal-audio');
       });
+    }
+
+    const notificationBtn = document.getElementById('btn-enable-notifications');
+    if (notificationBtn) {
+      notificationBtn.addEventListener('click', () => this.requestNotifications());
+      if ('Notification' in window && Notification.permission === 'granted') {
+        notificationBtn.classList.add('sound-active');
+      }
     }
 
     // Volume Slider
@@ -487,6 +527,11 @@ class AppController {
       }
       document.body.classList.remove('fullscreen-hud');
     }
+  }
+
+  toLocalDateTimeValue(date) {
+    const pad = value => String(value).padStart(2, '0');
+    return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
   }
 }
 
