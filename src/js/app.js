@@ -203,11 +203,10 @@ class AppController {
   applyTimeScale() {
     if (!this.currentTimer) return;
 
-    // Durasi sampai 24 jam memakai Jam:Menit:Detik.
-    // Event lebih dari 24 jam memakai Hari:Jam:Menit:Detik.
-    const start = new Date(this.currentTimer.startDate || Date.now()).getTime();
+    // Hari hanya ditampilkan jika sisa waktu masih minimal 24 jam.
+    // Saat masuk 23:59:59, unit Hari langsung disembunyikan.
     const target = new Date(this.currentTimer.targetDate).getTime();
-    const showDays = target - start > 24 * 60 * 60 * 1000;
+    const showDays = target - Date.now() >= 24 * 60 * 60 * 1000;
     const selectors = [
       ['#display-ring [data-ring="days"]', el => el],
       ['#display-flip [data-unit="days"]', el => el.closest('.flip-pod')],
