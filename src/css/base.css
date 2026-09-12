@@ -219,6 +219,11 @@ h1, h2, h3, h4, .font-display {
   border-radius: var(--radius-full);
 }
 
+/* Unit yang tidak relevan dengan skala event disembunyikan oleh controller. */
+.unit-hidden {
+  display: none !important;
+}
+
 .btn-sm {
   padding: 0.45rem 0.9rem;
   font-size: 0.8rem;

@@ -51,6 +51,7 @@ class AppController {
 
     this.activeDisplayMode = this.currentTimer.displayMode || 'ring';
     this.activeTheme = this.currentTimer.theme || 'cosmic';
+    this.applyTimeScale();
 
     this.applyTheme(this.activeTheme);
     this.applyDisplayMode(this.activeDisplayMode);
@@ -199,6 +200,28 @@ class AppController {
     }
   }
 
+  applyTimeScale() {
+    if (!this.currentTimer) return;
+
+    // Durasi sampai 24 jam memakai Jam:Menit:Detik.
+    // Event lebih dari 24 jam memakai Hari:Jam:Menit:Detik.
+    const start = new Date(this.currentTimer.startDate || Date.now()).getTime();
+    const target = new Date(this.currentTimer.targetDate).getTime();
+    const showDays = target - start > 24 * 60 * 60 * 1000;
+    const selectors = [
+      ['#display-ring [data-ring="days"]', el => el],
+      ['#display-flip [data-unit="days"]', el => el.closest('.flip-pod')],
+      ['#display-bento [data-bento="days"]', el => el.closest('.bento-card')],
+      ['#display-kinetic [data-kinetic="days"]', el => el.closest('.kinetic-pod')]
+    ];
+
+    selectors.forEach(([selector, resolve]) => {
+      const el = document.querySelector(selector);
+      const unit = el && resolve(el);
+      if (unit) unit.classList.toggle('unit-hidden', !showDays);
+    });
+  }
+
   switchTimer(timerId) {
     const timer = this.storage.timers.find(t => t.id === timerId);
     if (!timer) return;
@@ -208,6 +231,7 @@ class AppController {
 
     this.activeDisplayMode = timer.displayMode || this.activeDisplayMode;
     this.activeTheme = timer.theme || this.activeTheme;
+    this.applyTimeScale();
 
     this.applyTheme(this.activeTheme);
     this.applyDisplayMode(this.activeDisplayMode);
